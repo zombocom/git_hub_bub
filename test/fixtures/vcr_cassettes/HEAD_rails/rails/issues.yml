@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://api.github.com/repos/rails/rails/issues
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.github.3.raw+json
+      User-Agent:
+      - f7baade8a8014c3aa0fa31a172f51a37
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 21 May 2013 20:03:30 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '57'
+      Vary:
+      - Accept, Accept-Encoding
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Last-Modified:
+      - Tue, 21 May 2013 20:00:16 GMT
+      Etag:
+      - '"2268fc642d2daf7ef400b588da20134b"'
+      X-Github-Media-Type:
+      - github.beta; param=3.raw; format=json
+      Link:
+      - <https://api.github.com/repositories/8514/issues?page=2>; rel="next", <https://api.github.com/repositories/8514/issues?page=18>;
+        rel="last"
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '72039'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-OAuth-Scopes, X-Accepted-OAuth-Scopes
+      Access-Control-Allow-Origin:
+      - '*'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 21 May 2013 20:03:40 GMT
+recorded_with: VCR 2.5.0

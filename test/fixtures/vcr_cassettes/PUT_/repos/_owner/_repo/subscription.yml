@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://api.github.com/repos/<WATCH_OWNER>/<WATCH_REPO>/subscription?ignored=false&subscribed=true
+    body:
+      encoding: UTF-8
+      string: '{"subscribed":true,"ignored":false}'
+    headers:
+      Accept:
+      - application/vnd.github.3.raw+json
+      User-Agent:
+      - f7baade8a8014c3aa0fa31a172f51a37
+      Authorization:
+      - token <GITHUB_API_KEY>
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 21 May 2013 20:03:32 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4986'
+      X-Oauth-Scopes:
+      - user, public_repo, repo, gist
+      X-Accepted-Oauth-Scopes:
+      - notifications, repo
+      X-Github-Media-Type:
+      - github.beta; param=3.raw; format=json
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '217'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-OAuth-Scopes, X-Accepted-OAuth-Scopes
+      Access-Control-Allow-Origin:
+      - '*'
+      Etag:
+      - '"b4d7f4dcdb554fe3019c7172bd93c499"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"subscribed":true,"ignored":false,"reason":null,"created_at":"2013-05-21T20:03:32Z","url":"https://api.github.com/repos/<WATCH_OWNER>/<WATCH_REPO>/subscription","repository_url":"https://api.github.com/repos/<WATCH_OWNER>/<WATCH_REPO>"}'
+    http_version: 
+  recorded_at: Tue, 21 May 2013 20:03:42 GMT
+recorded_with: VCR 2.5.0

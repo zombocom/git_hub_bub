@@ -1,0 +1,113 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.github.com/repos/<OWNER>/<REPO>/labels?color=FFFFFF&name=test
+    body:
+      encoding: UTF-8
+      string: '{"name":"test","color":"FFFFFF"}'
+    headers:
+      Accept:
+      - application/vnd.github.3.raw+json
+      User-Agent:
+      - f7baade8a8014c3aa0fa31a172f51a37
+      Authorization:
+      - token <GITHUB_API_KEY>
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 21 May 2013 20:03:27 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4990'
+      X-Oauth-Scopes:
+      - user, public_repo, repo, gist
+      X-Accepted-Oauth-Scopes:
+      - repo, public_repo
+      Location:
+      - https://api.github.com/repos/<OWNER>/<REPO>/labels/test
+      X-Github-Media-Type:
+      - github.beta; param=3.raw; format=json
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '97'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-OAuth-Scopes, X-Accepted-OAuth-Scopes
+      Access-Control-Allow-Origin:
+      - '*'
+      Etag:
+      - '"b770f09e29b13b0c3a3be4ef42fea299"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://api.github.com/repos/<OWNER>/<REPO>/labels/test","name":"test","color":"FFFFFF"}'
+    http_version: 
+  recorded_at: Tue, 21 May 2013 20:03:37 GMT
+- request:
+    method: delete
+    uri: https://api.github.com/repos/<OWNER>/<REPO>/labels/test
+    body:
+      encoding: UTF-8
+      string: '{}'
+    headers:
+      Accept:
+      - application/vnd.github.3.raw+json
+      User-Agent:
+      - f7baade8a8014c3aa0fa31a172f51a37
+      Authorization:
+      - token <GITHUB_API_KEY>
+  response:
+    status:
+      code: 204
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 21 May 2013 20:03:28 GMT
+      Connection:
+      - keep-alive
+      Status:
+      - 204 No Content
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4989'
+      X-Oauth-Scopes:
+      - user, public_repo, repo, gist
+      X-Accepted-Oauth-Scopes:
+      - repo, public_repo
+      X-Github-Media-Type:
+      - github.beta; param=3.raw; format=json
+      X-Content-Type-Options:
+      - nosniff
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-OAuth-Scopes, X-Accepted-OAuth-Scopes
+      Access-Control-Allow-Origin:
+      - '*'
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 21 May 2013 20:03:38 GMT
+recorded_with: VCR 2.5.0
