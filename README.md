@@ -106,7 +106,7 @@ You will need to use one of these every time the GitHub api says "as an authenti
 If you want to mess with the url or options before sending a request you can set a callback globally
 
 ```ruby
-GitHubBub::Request.set_callback do |request|
+GitHubBub::Request.set_before_callback do |request|
   request.url     = "http://schneems.com"
   request.options = {do: "anything you want to _all_ the requests" }
 end
