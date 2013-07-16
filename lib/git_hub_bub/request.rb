@@ -8,13 +8,14 @@ module GitHubBub
     GITHUB_VERSION = "vnd.github.3.raw+json"
     EXTRA_HEADERS  ||= {}
     BASE_HEADERS   = EXTRA_HEADERS.merge({'Accept' => "application/#{GITHUB_VERSION}", "User-Agent" => USER_AGENT})
+    BASE_OPTIONS   = { omit_default_port:  true }
     RETRIES        = 1
 
     def initialize(url, query = {}, options = {})
-      self.url             = url.include?("http") ? url : File.join(BASE_URI, url)
-      self.options         = options || {}
-      self.options[:query] = query   if query && !query.empty?
-      options[:headers]    = BASE_HEADERS.merge(options[:headers]|| {})
+      self.url               = url.include?("http") ? url : File.join(BASE_URI, url)
+      self.options           = BASE_OPTIONS.merge(options || {})
+      self.options[:query]   = query   if query && !query.empty?
+      self.options[:headers] = BASE_HEADERS.merge(options[:headers]|| {})
     end
 
     def self.head(url, query = {}, options = {})
