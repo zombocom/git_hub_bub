@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.github.com/user?name=Richard%20Schneeman
+    uri: https://api.github.com/user?name=USER_NAME
     body:
       encoding: UTF-8
       string: '{"name":"<USER_NAME>"}'
@@ -62,6 +62,6 @@ http_interactions:
         enjoy contributing to open source projects. If you find yourself at an austinonrails.org
         meeting you''ll likely find me in the crowd or giving a presentation.  Come
         say hi!","public_repos":77,"followers":273,"following":3,"created_at":"2009-03-03T16:11:07Z","updated_at":"2013-05-21T20:03:31Z","public_gists":63,"total_private_repos":7,"owned_private_repos":3,"disk_usage":37476,"collaborators":4,"plan":{"name":"micro","space":614400,"collaborators":1,"private_repos":5},"private_gists":109,"site_admin":false}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 21 May 2013 20:03:41 GMT
 recorded_with: VCR 2.5.0

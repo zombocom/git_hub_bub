@@ -28,11 +28,11 @@ VCR.configure do |c|
   c.cassette_library_dir = 'test/fixtures/vcr_cassettes'
   c.hook_into :webmock # or :fakeweb
 
-  %W{GITHUB_API_KEY OWNER REPO USER_NAME WATCH_OWNER WATCH_REPO}.each do |secure|
-    c.filter_sensitive_data("<#{secure}>") { ENV[secure] ||= secure  }
+  'GITHUB_API_KEY OWNER REPO USER_NAME WATCH_OWNER WATCH_REPO'.split(' ').each do |secure|
+    sensitive = ENV[secure] ||= secure
+    c.filter_sensitive_data("<#{secure}>") { sensitive }
   end
 end
-
 
 require 'dotenv'
 Dotenv.load
