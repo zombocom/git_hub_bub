@@ -158,7 +158,7 @@ This gem is tested using the super cool request recording/stubbing framework [VC
 You'll also need a valid `.env` file
 
 ```sh
-$ touch .env
+$ cp .sample.env .env
 ```
 
 Anything you put in this file will be sourced into your environment for tests. Here is an example `.env` file.
