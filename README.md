@@ -1,6 +1,6 @@
 # GitHubBub
 
-[![Build Status](https://travis-ci.org/schneems/git_hub_bub.png?branch=master)](https://travis-ci.org/schneems/git_hub_bub)
+[![Build Status](https://travis-ci.org/schneems/git_hub_bub.svg?branch=master)](https://travis-ci.org/schneems/git_hub_bub)
 
 A low level GitHub client that makes the disgusting issue of header based url pagination simple.
 
