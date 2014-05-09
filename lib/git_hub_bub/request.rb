@@ -12,7 +12,7 @@ module GitHubBub
     RETRIES        = 1
 
     def initialize(url, query = {}, options = {})
-      self.url               = url.include?("http") ? url : File.join(BASE_URI, url)
+      self.url               = url =~ /^http(\w?)\:\/\// ? url : File.join(BASE_URI, url)
       self.options           = BASE_OPTIONS.merge(options || {})
       self.options[:query]   = query   if query && !query.empty?
       self.options[:headers] = BASE_HEADERS.merge(options[:headers]|| {})

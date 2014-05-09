@@ -6,6 +6,18 @@ class RequestTest < Test::Unit::TestCase
     GitHubBub::Request.clear_callbacks
   end
 
+  def test_set_url
+    request = GitHubBub::Request.new('foo')
+    assert_equal "https://api.github.com/foo", request.url
+    request = GitHubBub::Request.new('http://foo.com')
+    assert_equal "http://foo.com", request.url
+    request = GitHubBub::Request.new('https://bar.com')
+    assert_equal "https://bar.com", request.url
+    request = GitHubBub::Request.new('arthurnn/http')
+    assert_equal "https://api.github.com/arthurnn/http", request.url
+    request = GitHubBub::Request.new('arthurnn/https')
+    assert_equal "https://api.github.com/arthurnn/https", request.url
+  end
 
   def test_set_callback
     request = GitHubBub::Request.new('foo')
