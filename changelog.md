@@ -1,3 +1,7 @@
+## 0.0.5 (06/06/2014)
+
+- Ughhhh, re-push 0.0.4 with changes from origin master :)
+
 ## 0.0.4 (06/06/2014)
 
 - Fix github auth check
