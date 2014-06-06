@@ -13,7 +13,7 @@ module GitHubBub
   class << self
 
     def valid_token?(token)
-      Request.get("https://#{ENV['GITHUB_APP_ID']}:#{ENV['GITHUB_APP_SECRET']}@api.github.com/applications/#{ENV['GITHUB_APP_ID']}/tokens/#{token}", {}, token: nil)
+      Request.get("https://#{ENV['GITHUB_APP_ID']}:#{ENV['GITHUB_APP_SECRET']}@api.github.com/applications/#{ENV['GITHUB_APP_ID']}/tokens/#{token}", {token: nil})
       true
     rescue GitHubBub::RequestError
       false
