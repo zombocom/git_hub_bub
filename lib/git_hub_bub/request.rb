@@ -13,9 +13,14 @@ module GitHubBub
 
     def initialize(url, query = {}, options = {})
       self.url               = url =~ /^http(\w?)\:\/\// ? url : File.join(BASE_URI, url)
+      @skip_token            = options.delete(:skip_token)
       self.options           = BASE_OPTIONS.merge(options || {})
-      self.options[:query]   = query   if query && !query.empty?
+      self.options[:query]   = query if query && !query.empty?
       self.options[:headers] = BASE_HEADERS.merge(options[:headers]|| {})
+    end
+
+    def skip_token?
+      @skip_token
     end
 
     def self.head(url, query = {}, options = {})
@@ -82,7 +87,7 @@ module GitHubBub
 
     def wrap_request(&block)
       before_callbacks!
-      set_auth_from_token!
+      set_auth_from_token! unless skip_token?
       query_to_json_body!
       response = RETRIES.times.retry do
         GitHubBub::Response.create(yield)

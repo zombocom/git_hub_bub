@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.github.com/user?name=USER_NAME
+    uri: https://api.github.com/user?name=<USER_NAME>
     body:
       encoding: UTF-8
       string: '{"name":"<USER_NAME>"}'
