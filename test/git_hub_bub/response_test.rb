@@ -47,4 +47,59 @@ class ResponseTest < Test::Unit::TestCase
     assert response.last_page?
     refute response.first_page?
   end
+
+  def test_rate_limit_remaining
+    response = GitHubBub::Response.new(rails_issues_data(:last))
+    assert_equal 60, response.rate_limit_remaining
+  end
+
+  def test_rate_limit_reset_time_left
+    epoch_time = 1504196685
+    Timecop.freeze(Time.at(epoch_time).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      assert_equal 0, response.rate_limit_reset_time_left
+    end
+
+    Timecop.freeze(Time.at(epoch_time - 2 ).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      assert_equal 2, response.rate_limit_reset_time_left
+    end
+  end
+
+  def test_rate_limit_sleep
+    epoch_time = 1504196685
+
+    # We are equal to our rate limit offset time
+    Timecop.freeze(Time.at(epoch_time).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      assert_equal 0, response.rate_limit_sleep!(bypass_sleep: true)
+    end
+
+    # We are beyond our rate limit offset time
+    Timecop.freeze(Time.at(epoch_time + 1).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      assert_equal 0, response.rate_limit_sleep!(bypass_sleep: true)
+    end
+
+    # We have lots of requests
+    Timecop.freeze(Time.at(epoch_time - 1).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      response.headers["X-RateLimit-Limit"] = "5000"
+      assert_equal 0, response.rate_limit_sleep!(bypass_sleep: true)
+    end
+
+    # We have limits zero remaining, and are 1 second away from reset
+    Timecop.freeze(Time.at(epoch_time - 1).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      response.headers["X-RateLimit-Limit"] = "0"
+      assert_equal 1, response.rate_limit_sleep!(bypass_sleep: true)
+    end
+
+    # We have 10 requests remaining and are 1 second away from reset
+    Timecop.freeze(Time.at(epoch_time - 1).to_datetime) do
+      response = GitHubBub::Response.new(rails_issues_data(:last))
+      response.headers["X-RateLimit-Limit"] = "10"
+      assert_equal 1.0/10, response.rate_limit_sleep!(bypass_sleep: true)
+    end
+  end
 end

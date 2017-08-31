@@ -20,10 +20,13 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "rrrretry"
   gem.add_dependency "excon"
+  gem.add_development_dependency "timecop"
+  gem.add_development_dependency "test-unit"
   gem.add_development_dependency "mocha"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "vcr",     '~> 2.5.0'
   gem.add_development_dependency "webmock", '~> 1.11.0'
   gem.add_development_dependency "dotenv"
-end
 
+  gem.required_ruby_version = '>= 2.2'
+end
