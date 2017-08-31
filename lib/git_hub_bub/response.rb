@@ -5,6 +5,11 @@ module GitHubBub
        self.new(response.data)
      end
 
+     def rate_limit_remaining
+       limit_remaining = headers["X-RateLimit-Limit"]
+       Integer(limit_remaining)
+     end
+
      def json_body
       ::JSON.parse(self.body)
      end

@@ -47,4 +47,9 @@ class ResponseTest < Test::Unit::TestCase
     assert response.last_page?
     refute response.first_page?
   end
+
+  def test_rate_limit_remaining
+    response = GitHubBub::Response.new(rails_issues_data(:last))
+    assert_equal 60, response.rate_limit_remaining
+  end
 end

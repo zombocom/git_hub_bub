@@ -57,6 +57,7 @@ And get pagination (if there is any):
 response.next_url   # => "https://api.github.com/repositories/8514/issues?page=2"
 response.last_url?  # => false
 response.pagination # => {"next_url"=>"https://api.github.com/repositories/8514/issues?page=2", "last_url"=>"https://api.github.com/repositories/8514/issues?page=18"}
+response.rate_limit_remaining # => 60
 ```
 
 ## Passing Params
