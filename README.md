@@ -22,6 +22,21 @@ gem 'git_hub_bub'
 
 Then run `$ bundle install`
 
+## Upgrading to v1
+
+Version 0.x of this library would raise an exception on any non-200 response. The current version does not do this, it instead provides a method
+
+```ruby
+response = GitHubBub.get("repoZ/railZ/railZ/issueZ")
+response.success?
+# => false
+```
+
+> Note this only checks for 2.x status, it does not acount for any other status codes, best practice is to manually manage yourself
+
+To preserve previous behavior of raising an error on non-200 status. You can set the `GIT_HUB_BUB_RAISE_ON_FAIL` environment variable to any value.
+
+
 ## GET Whatever you Want:
 
 To make requests to a `GET` endpoint use `GitHubBub.get`

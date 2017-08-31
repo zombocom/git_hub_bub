@@ -10,6 +10,7 @@ module GitHubBub
     BASE_HEADERS   = EXTRA_HEADERS.merge({'Accept' => "application/#{GITHUB_VERSION}", "User-Agent" => USER_AGENT})
     BASE_OPTIONS   = { omit_default_port:  true }
     RETRIES        = 1
+    RAISE_ON_FAIL  = ENV["GIT_HUB_BUB_RAISE_ON_FAIL"]
 
     def initialize(url, query = {}, options = {})
       self.url               = url =~ /^http(\w?)\:\/\// ? url : File.join(BASE_URI, url)
@@ -92,7 +93,10 @@ module GitHubBub
       response = RETRIES.times.retry do
         GitHubBub::Response.create(yield)
       end
-      raise RequestError, "message: '#{response.json_body['message']}', url: '#{url}', response: '#{response.inspect}'" unless response.status.to_s =~ /^2.*/
+
+      if RAISE_ON_FAIL
+        raise RequestError, "message: '#{response.json_body['message']}', url: '#{url}', response: '#{response.inspect}'" unless response.success?
+      end
       return response
     end
 

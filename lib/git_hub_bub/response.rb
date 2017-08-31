@@ -9,6 +9,10 @@ module GitHubBub
       ::JSON.parse(self.body)
      end
 
+     def success?
+      status.to_s =~ /^2.*/
+     end
+
      def pagination
        @pagination ||= parse_pagination
      end

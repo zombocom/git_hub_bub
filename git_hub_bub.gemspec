@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "rrrretry"
   gem.add_dependency "excon"
+  gem.add_development_dependency "test-unit"
   gem.add_development_dependency "mocha"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "vcr",     '~> 2.5.0'

@@ -13,10 +13,15 @@ module GitHubBub
   class << self
 
     def valid_token?(token)
-      Request.get("https://#{ENV['GITHUB_APP_ID']}:#{ENV['GITHUB_APP_SECRET']}@api.github.com/applications/#{ENV['GITHUB_APP_ID']}/tokens/#{token}", {}, {skip_token: true})
-      true
-    rescue GitHubBub::RequestError
-      false
+      response = Request.get("https://#{ENV['GITHUB_APP_ID']}:#{ENV['GITHUB_APP_SECRET']}@api.github.com/applications/#{ENV['GITHUB_APP_ID']}/tokens/#{token}", {}, {skip_token: true})
+      return response if response.success?
+      return false if response.status == 404
+    rescue GitHubBub::RequestError => e
+      if Request::RAISE_ON_FAIL
+        return false
+      else
+        raise e
+      end
     end
 
     def head(*args)
