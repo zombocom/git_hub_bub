@@ -1,6 +1,7 @@
+require 'date'
+
 module GitHubBub
   class Response < Excon::Response
-
      def self.create(response)
        self.new(response.data)
      end
@@ -8,6 +9,32 @@ module GitHubBub
      def rate_limit_remaining
        limit_remaining = headers["X-RateLimit-Limit"]
        Integer(limit_remaining)
+     end
+
+     def rate_limit_reset_time_left # in seconds
+       utc_epoch_seconds = headers["X-RateLimit-Reset"]
+       utc_epoch_seconds = Integer(utc_epoch_seconds)
+       return utc_epoch_seconds - Time.now.utc.to_i
+     end
+
+     # When no time is left we want to sleep until our limit is reset
+     # i.e. remaining is 1 so time/1 => time
+     #
+     # When we have plenty of requests left then we want to sleep for too long
+     # i.e. time / 1000 => smaller amount of time
+     def rate_limit_sleep!(bypass_sleep: false)
+      remaining = rate_limit_remaining
+      time_left = rate_limit_reset_time_left
+      return 0 if time_left <= 0
+      return 0 if remaining > 1000
+
+      if remaining > 0
+        val = time_left / remaining.to_f
+      else
+        val = time_left
+      end
+      sleep(val) unless bypass_sleep
+      return val
      end
 
      def json_body

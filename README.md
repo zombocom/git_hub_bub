@@ -36,6 +36,14 @@ response.success?
 
 To preserve previous behavior of raising an error on non-200 status. You can set the `GIT_HUB_BUB_RAISE_ON_FAIL` environment variable to any value.
 
+In v1 the ability to sleep to add a rate limit was added:
+
+```
+response = GitHubBub.get('repos/rails/rails/issues')
+response.rate_limit_sleep!
+```
+
+As the number of available requests gets smaller and smaller this will sleep for longer and longer.
 
 ## GET Whatever you Want:
 
@@ -102,7 +110,6 @@ GitHubBub::Request::EXTRA_HEADERS = { "Content-Type" => "application/x-www-form-
 
 Keep in mind this will change them for _every_ request. If you need logic behind your default headers, consider adding a `before_send_callback` to conditionally modify headers
 
-
 ## Authenticated Requests
 
 Some GitHub endpoints require a user's authorization you can do that by passing in `token`:
@@ -118,6 +125,21 @@ GitHubBub.get('/user', {} {headers: {"Authorization" => "token a38ck38ckgoldfish
 ```
 
 You will need to use one of these every time the GitHub api says "as an authenticated user".
+
+## Rate limiting
+
+GitHub requests are rate limited. With every request they send back information with the number of requests left and when the time window resets.
+
+Instead of worrying about either of those direct measurements you can instead use this helper method:
+
+```
+response = GitHubBub.get('repos/rails/rails/issues')
+response.rate_limit_sleep!
+```
+
+If you are repetitively calling the API you should use this method in each loop to prevent going over your bucket.
+
+As your remaining request limit gets lower this method will sleep for incrementally longer time periods until your limit bucket is refilled. Since this behavior comes __after__ a request it is possible that this request was rate limited. GitHub will return a 403 when you are over your limit.
 
 ## Callbacks
 
@@ -157,7 +179,6 @@ PATCH  # => GitHubBub.patch
 PUT    # => GitHubBub.put
 DELETE # => GitHubBub.delete
 ```
-
 
 ## Configuration
 
