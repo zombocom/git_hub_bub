@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GitHubBub
   class RequestError < StandardError; end
 
