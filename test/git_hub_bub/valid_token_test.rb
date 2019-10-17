@@ -14,8 +14,15 @@ class ValidTokenTest < Test::Unit::TestCase
 
     GitHubBub::Request.any_instance.expects(:token).never
 
+    GitHubBub::Request.set_before_callback do |request|
+      if request.token?
+        # Should be true for this call
+      else
+        raise "nope"
+      end
+    end
+
     GitHubBub.valid_token?(token)
     assert_requested stub_get
   end
-
 end

@@ -119,7 +119,7 @@ module GitHubBub
       elsif options[:query] && token = options[:query].delete(:token)
         token
       else
-        nil
+        skip_token?
       end
     end
     alias :token? :token
