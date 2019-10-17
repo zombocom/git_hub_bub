@@ -2,6 +2,10 @@
 
 ## Master
 
+## 1.0.1
+
+- Fix callbacks triggered from `valid_token?` now report that the request was made with a token.
+
 ## 1.0.0
 
 - Exceptions no longer raised on non 200 responses [#2]
