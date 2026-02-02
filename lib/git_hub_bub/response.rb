@@ -74,6 +74,7 @@ module GitHubBub
 
     def last_page?
       return true if next_url.nil?
+      return false if last_url.nil? # A next page exists, but no "last" page, keep going.
       last_page_number = page_number_from_url(last_url)
       next_page_number = page_number_from_url(next_url)
       next_page_number > last_page_number
