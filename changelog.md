@@ -1,6 +1,8 @@
 # Changelog
 
-## Master
+## Unreleased
+
+- Minimum supported Ruby version updated to 3.2
 
 ## 1.0.1
 

@@ -1,13 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class ResponseTest < Test::Unit::TestCase
-
   def test_pagination
     response = GitHubBub::Response.new(rails_issues_data(:first))
-    assert_equal({"next_url"=>"https://api.github.com/repositories/8514/issues?page=2",
-                  "last_url"=>"https://api.github.com/repositories/8514/issues?page=18"},
-                  response.pagination)
-
+    assert_equal({"next_url" => "https://api.github.com/repositories/8514/issues?page=2",
+                  "last_url" => "https://api.github.com/repositories/8514/issues?page=18"},
+      response.pagination)
 
     assert_equal "https://api.github.com/repositories/8514/issues?page=2", response.next_url
     assert_equal "https://api.github.com/repositories/8514/issues?page=18", response.last_url
@@ -18,26 +16,25 @@ class ResponseTest < Test::Unit::TestCase
     assert response.first_page?
 
     response = GitHubBub::Response.new(rails_issues_data(:second))
-    assert_equal({"next_url"=>"https://api.github.com/repositories/8514/issues?page=3",
-                  "last_url"=>"https://api.github.com/repositories/8514/issues?page=18",
-                  "first_url"=>"https://api.github.com/repositories/8514/issues?page=1",
-                  "prev_url"=>"https://api.github.com/repositories/8514/issues?page=1"},
-                  response.pagination)
+    assert_equal({"next_url" => "https://api.github.com/repositories/8514/issues?page=3",
+                  "last_url" => "https://api.github.com/repositories/8514/issues?page=18",
+                  "first_url" => "https://api.github.com/repositories/8514/issues?page=1",
+                  "prev_url" => "https://api.github.com/repositories/8514/issues?page=1"},
+      response.pagination)
 
     assert_equal "https://api.github.com/repositories/8514/issues?page=3", response.next_url
     assert_equal "https://api.github.com/repositories/8514/issues?page=18", response.last_url
     assert_equal "https://api.github.com/repositories/8514/issues?page=1", response.prev_url
     assert_equal "https://api.github.com/repositories/8514/issues?page=1", response.first_url
 
-
     refute response.last_page?
     refute response.first_page?
 
     response = GitHubBub::Response.new(rails_issues_data(:last))
-    assert_equal({"last_url"=>"https://api.github.com/repositories/8514/issues?page=1",
-                  "first_url"=>"https://api.github.com/repositories/8514/issues?page=1",
-                  "prev_url"=>"https://api.github.com/repositories/8514/issues?page=17"},
-                  response.pagination)
+    assert_equal({"last_url" => "https://api.github.com/repositories/8514/issues?page=1",
+                  "first_url" => "https://api.github.com/repositories/8514/issues?page=1",
+                  "prev_url" => "https://api.github.com/repositories/8514/issues?page=17"},
+      response.pagination)
 
     assert_equal nil, response.next_url
     assert_equal "https://api.github.com/repositories/8514/issues?page=1", response.last_url
@@ -60,7 +57,7 @@ class ResponseTest < Test::Unit::TestCase
       assert_equal 0, response.rate_limit_reset_time_left
     end
 
-    Timecop.freeze(Time.at(epoch_time - 2 ).to_datetime) do
+    Timecop.freeze(Time.at(epoch_time - 2).to_datetime) do
       response = GitHubBub::Response.new(rails_issues_data(:last))
       assert_equal 2, response.rate_limit_reset_time_left
     end
@@ -99,7 +96,7 @@ class ResponseTest < Test::Unit::TestCase
     Timecop.freeze(Time.at(epoch_time - 1).to_datetime) do
       response = GitHubBub::Response.new(rails_issues_data(:last))
       response.headers["X-RateLimit-Limit"] = "10"
-      assert_equal 1.0/10, response.rate_limit_sleep!(bypass_sleep: true)
+      assert_equal 1.0 / 10, response.rate_limit_sleep!(bypass_sleep: true)
     end
   end
 end

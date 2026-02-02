@@ -4,22 +4,23 @@ module GitHubBub
   class RequestError < StandardError; end
 
   class Request
-    attr_accessor :url, :options, :token
-    BASE_URI       = 'https://api.github.com'
-    USER_AGENT     ||= SecureRandom.hex(16)
+    attr_accessor :url, :options
+    attr_writer :token
+    BASE_URI = "https://api.github.com"
+    USER_AGENT = defined?(USER_AGENT) ? USER_AGENT : SecureRandom.hex(16)
     GITHUB_VERSION = "vnd.github.3.raw+json"
-    EXTRA_HEADERS  ||= {}
-    BASE_HEADERS   = EXTRA_HEADERS.merge({'Accept' => "application/#{GITHUB_VERSION}", "User-Agent" => USER_AGENT})
-    BASE_OPTIONS   = { omit_default_port:  true }
-    RETRIES        = 1
-    RAISE_ON_FAIL  = ENV["GIT_HUB_BUB_RAISE_ON_FAIL"]
+    EXTRA_HEADERS = defined?(EXTRA_HEADERS) ? EXTRA_HEADERS : {}
+    BASE_HEADERS = EXTRA_HEADERS.merge({"Accept" => "application/#{GITHUB_VERSION}", "User-Agent" => USER_AGENT})
+    BASE_OPTIONS = {omit_default_port: true}
+    RETRIES = 1
+    RAISE_ON_FAIL = ENV["GIT_HUB_BUB_RAISE_ON_FAIL"]
 
     def initialize(url, query = {}, options = {})
-      self.url               = url =~ /^http(\w?)\:\/\// ? url : File.join(BASE_URI, url)
-      @skip_token            = options.delete(:skip_token)
-      self.options           = BASE_OPTIONS.merge(options || {})
-      self.options[:query]   = query if query && !query.empty?
-      self.options[:headers] = BASE_HEADERS.merge(options[:headers]|| {})
+      self.url = /^http(\w?):\/\//.match?(url) ? url : File.join(BASE_URI, url)
+      @skip_token = options.delete(:skip_token)
+      self.options = BASE_OPTIONS.merge(options || {})
+      self.options[:query] = query if query && !query.empty?
+      self.options[:headers] = BASE_HEADERS.merge(options[:headers] || {})
     end
 
     def skip_token?
@@ -27,7 +28,7 @@ module GitHubBub
     end
 
     def self.head(url, query = {}, options = {})
-      self.new(url, query, options).head
+      new(url, query, options).head
     end
 
     def head
@@ -37,19 +38,21 @@ module GitHubBub
     end
 
     def self.get(url, query = {}, options = {})
-      self.new(url, query, options).get
+      new(url, query, options).get
     end
 
     def get
       wrap_request do
         ex = Excon.get(url, options)
-        ex = Excon.get(@location, options) if @location = ex.headers["Location"]
+        if (@location = ex.headers["Location"])
+          ex = Excon.get(@location, options)
+        end
         ex
       end
     end
 
     def self.post(url, query = {}, options = {})
-      self.new(url, query, options).post
+      new(url, query, options).post
     end
 
     def post
@@ -59,7 +62,7 @@ module GitHubBub
     end
 
     def self.patch(url, query = {}, options = {})
-      self.new(url, query, options).patch
+      new(url, query, options).patch
     end
 
     def patch
@@ -69,7 +72,7 @@ module GitHubBub
     end
 
     def self.put(url, query = {}, options = {})
-      self.new(url, query, options).put
+      new(url, query, options).put
     end
 
     def put
@@ -79,7 +82,7 @@ module GitHubBub
     end
 
     def self.delete(url, query = {}, options = {})
-      self.new(url, query, options).delete
+      new(url, query, options).delete
     end
 
     def delete
@@ -97,9 +100,9 @@ module GitHubBub
       end
 
       if RAISE_ON_FAIL
-        raise RequestError, "message: '#{response.json_body['message']}', url: '#{url}', response: '#{response.inspect}'" unless response.success?
+        raise RequestError, "message: '#{response.json_body["message"]}', url: '#{url}', response: '#{response.inspect}'" unless response.success?
       end
-      return response
+      response
     end
 
     # do they take query params? do they take :body?
@@ -114,22 +117,22 @@ module GitHubBub
     end
 
     def token
-      @token ||= if options[:headers] && token_string = options[:headers]["Authorization"]
+      @token ||= if options[:headers] && (token_string = options[:headers]["Authorization"])
         token_string.split(/\s/).last
-      elsif options[:query] && token = options[:query].delete(:token)
-        token
+      elsif options[:query] && (query_token = options[:query].delete(:token))
+        query_token
       else
         skip_token?
       end
     end
-    alias :token? :token
+    alias_method :token?, :token
 
     def self.set_before_callback(&block)
       before_callbacks << block
     end
 
     def self.before_callbacks
-      @before_callbacks ||=[]
+      @before_callbacks ||= []
     end
 
     def self.clear_callbacks
@@ -138,7 +141,7 @@ module GitHubBub
 
     def before_callbacks!
       self.class.before_callbacks.each do |callback|
-        run_callback &callback
+        run_callback(&callback)
       end
     end
 
