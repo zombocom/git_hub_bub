@@ -69,16 +69,16 @@ class ResponseTest < Test::Unit::TestCase
     data = {
       body: "[{\"url\":\"https://api.github.com/repos/puma/puma/issues/3643\"}]",
       headers: {
-        "Link" => "<https://api.github.com/repositories/2441517/issues?direction=desc&page=2&sort=comments&state=open&after=Y3Vyc29yOnYyOpIIzpU4Fek%3D&per_page=30>; rel=\"next\"",
+        "Link" => "<https://api.github.com/repositories/2441517/issues?direction=desc&page=2&sort=comments&state=open&after=Y3Vyc29yOnYyOpIIzpU4Fek%3D&per_page=30>; rel=\"next\""
       },
       status: 200
     }
     response = GitHubBub::Response.new(data)
 
-    assert_equal "https://api.github.com/repositories/2441517/issues?direction=desc&page=2&sort=comments&state=open&after=Y3Vyc29yOnYyOpIIzpU4Fek%3D&per_page=30", response.next_url
+    assert_equal "https://api.github.com/repositories/2441517/issues?direction=desc&page=2&sort=comments&state=open&after=Y3Vyc29yOnYyOpIIzpU4Fek%3D&per_page=30",
+      response.next_url
     assert_nil response.last_url
 
-    # This will fail because last_page? tries to parse last_url when it's nil
     refute response.last_page?
   end
 

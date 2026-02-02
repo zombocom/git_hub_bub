@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Minimum supported Ruby version updated to 3.2
+- Minimum supported Ruby version updated to 3.2.
+- Fix: Responses that don't have a `last_url` in the link no longer error.
 
 ## 1.0.1
 
