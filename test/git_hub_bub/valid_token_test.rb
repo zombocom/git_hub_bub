@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ValidTokenTest < Test::Unit::TestCase
   include WebMock::API
@@ -8,8 +8,8 @@ class ValidTokenTest < Test::Unit::TestCase
   end
 
   def test_does_not_add_token_to_header
-    token    = "foo"
-    url      = "https://#{ENV['GITHUB_APP_ID']}:#{ENV['GITHUB_APP_SECRET']}@api.github.com/applications/#{ENV['GITHUB_APP_ID']}/tokens/#{token}"
+    token = "foo"
+    url = "https://#{ENV["GITHUB_APP_ID"]}:#{ENV["GITHUB_APP_SECRET"]}@api.github.com/applications/#{ENV["GITHUB_APP_ID"]}/tokens/#{token}"
     stub_get = stub_request(:get, url)
 
     GitHubBub::Request.any_instance.expects(:token).never
