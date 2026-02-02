@@ -12,9 +12,8 @@ class ValidTokenTest < Test::Unit::TestCase
     VCR.turned_off do
       token = "foo"
       url = "https://api.github.com/applications/#{ENV["GITHUB_APP_ID"]}/tokens/#{token}"
+      # Add a basic auth header, will fail if `'Authorization'=>'token ...'` header is added by mistake
       stub_get = stub_request(:get, url).with(basic_auth: [ENV["GITHUB_APP_ID"], ENV["GITHUB_APP_SECRET"]])
-
-      GitHubBub::Request.any_instance.expects(:token).never
 
       GitHubBub::Request.set_before_callback do |request|
         if request.token?
