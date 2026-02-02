@@ -3,7 +3,6 @@
 require "securerandom"
 require "json"
 require "uri"
-require "cgi"
 
 require "excon"
 require "rrrretry"

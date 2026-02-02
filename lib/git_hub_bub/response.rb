@@ -86,7 +86,8 @@ module GitHubBub
 
     def page_number_from_url(url)
       query = ::URI.parse(url).query
-      ::CGI.parse(query)["page"].first.to_i
+      params = ::URI.decode_www_form(query).to_h
+      params["page"].to_i
     end
 
     def header_links

@@ -8,21 +8,24 @@ class ValidTokenTest < Test::Unit::TestCase
   end
 
   def test_does_not_add_token_to_header
-    token = "foo"
-    url = "https://#{ENV["GITHUB_APP_ID"]}:#{ENV["GITHUB_APP_SECRET"]}@api.github.com/applications/#{ENV["GITHUB_APP_ID"]}/tokens/#{token}"
-    stub_get = stub_request(:get, url)
+    # Disable VCR so WebMock's stub_request can handle the request directly
+    VCR.turned_off do
+      token = "foo"
+      url = "https://api.github.com/applications/#{ENV["GITHUB_APP_ID"]}/tokens/#{token}"
+      stub_get = stub_request(:get, url).with(basic_auth: [ENV["GITHUB_APP_ID"], ENV["GITHUB_APP_SECRET"]])
 
-    GitHubBub::Request.any_instance.expects(:token).never
+      GitHubBub::Request.any_instance.expects(:token).never
 
-    GitHubBub::Request.set_before_callback do |request|
-      if request.token?
-        # Should be true for this call
-      else
-        raise "nope"
+      GitHubBub::Request.set_before_callback do |request|
+        if request.token?
+          # Should be true for this call
+        else
+          raise "nope"
+        end
       end
-    end
 
-    GitHubBub.valid_token?(token)
-    assert_requested stub_get
+      GitHubBub.valid_token?(token)
+      assert_requested stub_get
+    end
   end
 end
