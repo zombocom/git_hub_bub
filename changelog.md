@@ -2,6 +2,8 @@
 
 ## Master
 
+- Minimum supported Ruby version updated to 3.2
+
 ## 1.0.1
 
 - Fix callbacks triggered from `valid_token?` now report that the request was made with a token.

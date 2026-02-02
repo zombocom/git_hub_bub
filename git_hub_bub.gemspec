@@ -28,5 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "dotenv"
   gem.add_development_dependency "standard"
 
-  gem.required_ruby_version = ">= 2.2"
+  gem.required_ruby_version = ">= 3.2"
 end
