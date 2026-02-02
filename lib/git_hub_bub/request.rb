@@ -138,7 +138,7 @@ module GitHubBub
 
     def before_callbacks!
       self.class.before_callbacks.each do |callback|
-        run_callback &callback
+        run_callback(&callback)
       end
     end
 
